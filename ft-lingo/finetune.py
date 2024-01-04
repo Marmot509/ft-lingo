@@ -143,6 +143,7 @@ def train():
 #    set_seed(training_args.seed) 
 
     wandb.init(project="ft-lingo", name="lingo"+str(time.time())+str(training_args.learning_rate), config=training_args)
+    wandb.log({"model": model_args.model_name_or_path})
 
     config = transformers.AutoConfig.from_pretrained(
         model_args.model_name_or_path,
