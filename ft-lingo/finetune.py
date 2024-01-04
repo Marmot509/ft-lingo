@@ -7,7 +7,7 @@ from typing import Optional, Dict
 import torch
 from torch.utils.data import Dataset
 import transformers
-from transformers.training_args import TrainingArguments, set_seed
+from transformers.training_args import TrainingArguments
 from dataclasses import dataclass, field
 
 
