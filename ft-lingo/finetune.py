@@ -1,15 +1,16 @@
 import os
-from typing import Optional, Dict
-from dataclasses import dataclass, field
+import logging
+import sys
 import json
+from typing import Optional, Dict
 
 import torch
 from torch.utils.data import Dataset
 import transformers
-from transformers.training_args import TrainingArguments
+from transformers.training_args import TrainingArguments, set_seed
+from dataclasses import dataclass, field
 
-import logging
-import sys
+
 
 logger = logging.getLogger(__name__)
 
@@ -120,7 +121,7 @@ def train():
     if training_args.should_log:
         transformers.utils.logging.set_verbosity_info()
     
-    log_level = training_args.getprocessloglevel()
+    log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
     transformers.utils.logging.set_verbosity(log_level)
     transformers.utils.logging.enable_default_handler()
