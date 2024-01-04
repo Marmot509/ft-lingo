@@ -8,6 +8,12 @@ from torch.utils.data import Dataset
 import transformers
 from transformers.training_args import TrainingArguments
 
+import logging
+import sys
+
+logger = logging.getLogger(__name__)
+
+
 
 @dataclass
 class ModelArguments:
@@ -105,6 +111,32 @@ def train():
         (ModelArguments, DataArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
+    logging.basicConfig(
+        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+        datefmt="%m/%d/%Y %H:%M:%S",
+        handlers=[logging.StreamHandler(sys.stdout)],
+    )
+    
+    if training_args.should_log:
+        transformers.utils.logging.set_verbosity_info()
+    
+    log_level = training_args.getprocessloglevel()
+    logger.setLevel(log_level)
+    transformers.utils.logging.set_verbosity(log_level)
+    transformers.utils.logging.enable_default_handler()
+    transformers.utils.logging.enable_explicit_format()
+
+    logger.warning(
+        "Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
+        training_args.local_rank,
+        training_args.device,
+        training_args.n_gpu,
+        bool(training_args.local_rank != -1),
+        training_args.fp16,
+    )
+    logger.info("Training/evaluation parameters %s", training_args)
+    set_seed(training_args.seed) 
+
     config = transformers.AutoConfig.from_pretrained(
         model_args.model_name_or_path,
         trust_remote_code=True,
@@ -151,6 +183,9 @@ def train():
     trainer.train()
     trainer.save_state()
     trainer.save_model(output_dir=training_args.output_dir)
+
+
+
 
 
 if __name__ == "__main__":
