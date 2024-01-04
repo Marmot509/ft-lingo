@@ -19,6 +19,8 @@ def formatter(input_file, output_file):
             }
         ]
         json_data.append({"id": i, "conversations": conversation})
+        if i > 100:
+            break
 
     # 将转换后的数据写入 JSON 文件
     with open(output_file, 'w', encoding='utf-8') as file:
