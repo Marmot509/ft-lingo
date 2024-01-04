@@ -12,13 +12,7 @@ from transformers.training_args import TrainingArguments
 from dataclasses import dataclass, field
 import wandb
 
-
-
-
-
 logger = logging.getLogger(__name__)
-
-
 
 @dataclass
 class ModelArguments:
@@ -37,16 +31,15 @@ class DataArguments:
         metadata={"help": "Path to the evaluation data."}
         )
 
-
 @dataclass
 class TrainingArguments(transformers.TrainingArguments):
     cache_dir: Optional[str] = field(
-        default=None, metadata={"help": "cache dir for huggingface model."})
+        default=None, 
+        metadata={"help": "cache dir for huggingface model."}
+        )
     optim: str = field(default="adamw_torch")
     model_max_length: int = field(
         default=512,
-
-
         metadata={
             "help":
             "Maximum sequence length. Sequences will be right padded (and possibly truncated)."

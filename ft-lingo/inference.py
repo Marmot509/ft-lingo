@@ -1,7 +1,28 @@
-from peft import AutoPeftModelForCausalLM
-model = AutoPeftModelForCausalLM.from_pretrained("out", trust_remote_code=True)
+from peft import AutoPeftModelForCausalLM, LoraConfig, TaskType, get_peft_model
+import transformers
+import torch
 
+tokenizer = transformers.AutoTokenizer.from_pretrained("deeplang-ai/LingoWhale-8B",trust_remote_code=True)
+#model = AutoPeftModelForCausalLM.from_pretrained("out", trust_remote_code=True)
+model = transformers.AutoModel.from_pretrained("deeplang-ai/LingoWhale-8B", trust_remote_code=True, device_map="auto").to(
+    "cuda")
 
+peft_config = LoraConfig(
+    task_type=TaskType.CAUSAL_LM, inference_mode=True,
+    target_modules=['query_key_value'],
+    r=8, lora_alpha=16, lora_dropout=0.1
+)
+
+model = get_peft_model(model, peft_config)
+model.load_state_dict(torch.load("out"), strict=False)
+
+while True:
+    prompt = input("Prompt: ")
+    inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+    response = model.generate(input_ids=inputs["input_ids"],
+                              max_length=inputs["input_ids"].shape[-1] + 500)
+    response = response[0, inputs["input_ids"].shape[-1]:]
+    print("Response:", tokenizer.decode(response, skip_special_tokens=True))
 
 # import argparse
 # import torch
