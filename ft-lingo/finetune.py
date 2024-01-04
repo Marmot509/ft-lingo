@@ -28,8 +28,14 @@ class ModelArguments:
 
 @dataclass
 class DataArguments:
-    data_path: str = field(default=None,
-                           metadata={"help": "Path to the training data."})
+    data_path: str = field(
+        default=None,
+        metadata={"help": "Path to the training data."}
+        )
+    eval_path: str = field(
+        default=None,
+        metadata={"help": "Path to the evaluation data."}
+        )
 
 
 @dataclass
@@ -184,10 +190,16 @@ def train():
 
     dataset = SupervisedDataset(data_args.data_path, tokenizer,
                                 training_args.model_max_length)
-    trainer = transformers.Trainer(model=model,
-                                   args=training_args,
-                                   train_dataset=dataset,
-                                   tokenizer=tokenizer)
+    evalset = SupervisedDataset(data_args.eval_path, tokenizer,
+                                training_args.model_max_length)
+
+    trainer = transformers.Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=dataset,
+        eval_dataset=evalset,
+        tokenizer=tokenizer
+        )
     trainer.train()
     trainer.save_state()
     trainer.save_model(output_dir=training_args.output_dir)
