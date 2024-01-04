@@ -1,5 +1,5 @@
 import os
-import time
+import datetime
 import logging
 import sys
 import json
@@ -142,7 +142,7 @@ def train():
     logger.info("Training/evaluation parameters %s", training_args)
 #    set_seed(training_args.seed) 
 
-    wandb.init(project="ft-lingo", name="lingo"+str(time.time())+str(training_args.learning_rate), config=training_args)
+    wandb.init(project="ft-lingo", name="lingo"+str(datetime.datetime.now())+str(training_args.learning_rate), config=training_args)
     wandb.log({"model": model_args.model_name_or_path})
 
     config = transformers.AutoConfig.from_pretrained(
