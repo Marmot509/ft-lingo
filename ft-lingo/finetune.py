@@ -136,7 +136,7 @@ def train():
         training_args.fp16,
     )
     logger.info("Training/evaluation parameters %s", training_args)
-    set_seed(training_args.seed) 
+#    set_seed(training_args.seed) 
 
     config = transformers.AutoConfig.from_pretrained(
         model_args.model_name_or_path,
