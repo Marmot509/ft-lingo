@@ -1,4 +1,5 @@
 import os
+import time
 import logging
 import sys
 import json
@@ -9,6 +10,9 @@ from torch.utils.data import Dataset
 import transformers
 from transformers.training_args import TrainingArguments
 from dataclasses import dataclass, field
+import wandb
+
+
 
 
 
@@ -137,6 +141,8 @@ def train():
     )
     logger.info("Training/evaluation parameters %s", training_args)
 #    set_seed(training_args.seed) 
+
+    wandb.init(project="ft-lingo", name="lingo"+str(time.time())+str(training_args.learning_rate), config=training_args)
 
     config = transformers.AutoConfig.from_pretrained(
         model_args.model_name_or_path,
