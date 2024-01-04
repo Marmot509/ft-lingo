@@ -44,7 +44,7 @@ test_start_index = val_end_index
 
 # 执行转换
 formatter(source_data, 'train.json', 0, train_end_index)
-formatter(source_data, 'train_mini.json', 0, 100)
+formatter(source_data, 'train_mini.json', 0, 1000)
 formatter(source_data, 'val.json', val_start_index, val_end_index)
 formatter(source_data, 'val_mini.json', val_start_index, val_start_index + 100)
 formatter(source_data, 'test.json', test_start_index, total_lines)
