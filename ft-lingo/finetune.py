@@ -28,6 +28,8 @@ class TrainingArguments(transformers.TrainingArguments):
     optim: str = field(default="adamw_torch")
     model_max_length: int = field(
         default=512,
+
+
         metadata={
             "help":
             "Maximum sequence length. Sequences will be right padded (and possibly truncated)."
@@ -137,7 +139,7 @@ def train():
             lora_dropout=0.1,
         )
         model.enable_input_require_grads()
-        model = get_peft_model(model, peft_config)
+        model = get_peft_model(model, peft_config).to("cuda")
         model.print_trainable_parameters()
 
     dataset = SupervisedDataset(data_args.data_path, tokenizer,
