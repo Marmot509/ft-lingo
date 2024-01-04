@@ -3,6 +3,9 @@
     "train_micro_batch_size_per_gpu": "auto",
     "gradient_accumulation_steps": "auto",
     "gradient_clipping": 1.0,
+    "use_lora": true,
+    "data_path": "./data/lyrics.json",
+    "output_dir": "./output",
     "bf16": {
         "enabled": "auto"
     },
