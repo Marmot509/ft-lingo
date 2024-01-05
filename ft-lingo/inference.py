@@ -9,7 +9,7 @@ parser.add_argument("--lora-path", type=str, default=None,
 args = parser.parse_args()
 
 tokenizer = transformers.AutoTokenizer.from_pretrained("deeplang-ai/LingoWhale-8B",trust_remote_code=True)
-model = AutoPeftModelForCausalLM.from_pretrained("out/1001/", trust_remote_code=True)
+model = AutoPeftModelForCausalLM.from_pretrained("out/1001/", trust_remote_code=True).to("cuda")
 #model = transformers.AutoModel.from_pretrained("deeplang-ai/LingoWhale-8B", trust_remote_code=True, device_map="auto").to("cuda")
 
 peft_config = LoraConfig(
