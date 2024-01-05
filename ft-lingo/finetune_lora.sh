@@ -5,6 +5,7 @@ python finetune.py \
     --output_dir ./out/2000 \
     --per_device_train_batch_size 1 \
     --gradient_accumulation_steps 16 \
+    --lora_alpha 4 \
     --model_max_length 512 \
     --learning_rate 3e-5 \
     --evaluation_strategy steps \
