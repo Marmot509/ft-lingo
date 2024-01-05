@@ -2,7 +2,7 @@ python finetune.py \
     --use_lora True \
     --data_path ./data/train.json \
     --eval_path ./data/val_mini.json \
-    --output_dir ./out/2000 \
+    --output_dir ./out/fulldata0105 \
     --per_device_train_batch_size 1 \
     --gradient_accumulation_steps 16 \
     --model_max_length 512 \
