@@ -10,5 +10,5 @@ python finetune.py \
     --evaluation_strategy steps \
     --eval_steps 10 \
     --per_device_eval_batch_size 5 \
-    --num_train_epochs 50 \
+    --num_train_epochs 2 \
     --logging_steps 1 
