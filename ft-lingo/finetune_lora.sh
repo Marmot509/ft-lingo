@@ -1,6 +1,6 @@
 python finetune.py \
     --use_lora True \
-    --data_path ./data/train_mini.json \
+    --data_path ./data/train.json \
     --eval_path ./data/val_mini.json \
     --output_dir ./out/1001 \
     --per_device_train_batch_size 1 \
