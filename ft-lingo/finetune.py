@@ -174,7 +174,7 @@ def train():
             target_modules=["qkv_proj"],
             inference_mode=False,
             r=8,
-            lora_alpha=16,
+            lora_alpha=4,
             lora_dropout=0.1,
         )
         model.enable_input_require_grads()

@@ -163,3 +163,7 @@ cython_debug/
 ft-lingo/data/lyric_data_for_CL_no_id.jsonl
 ft-lingo/data/coig_10k.json
 ft-lingo/data/lyrics.json
+ft-lingo/data/train.json
+ft-lingo/data/val.json
+ft-lingo/data/test.json
+

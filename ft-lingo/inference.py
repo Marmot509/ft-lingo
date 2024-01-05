@@ -1,20 +1,25 @@
 from peft import AutoPeftModelForCausalLM, LoraConfig, TaskType, get_peft_model
 import transformers
 import torch
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--lora-path", type=str, default=None,
+                    help="Path to the LoRA model checkpoint")
+args = parser.parse_args()
 
 tokenizer = transformers.AutoTokenizer.from_pretrained("deeplang-ai/LingoWhale-8B",trust_remote_code=True)
-#model = AutoPeftModelForCausalLM.from_pretrained("out", trust_remote_code=True)
-model = transformers.AutoModel.from_pretrained("deeplang-ai/LingoWhale-8B", trust_remote_code=True, device_map="auto").to(
-    "cuda")
+model = AutoPeftModelForCausalLM.from_pretrained("out/1001/", trust_remote_code=True).to("cuda")
+#model = transformers.AutoModel.from_pretrained("deeplang-ai/LingoWhale-8B", trust_remote_code=True, device_map="auto").to("cuda")
 
 peft_config = LoraConfig(
     task_type=TaskType.CAUSAL_LM, inference_mode=True,
-    target_modules=['query_key_value'],
+    target_modules=['qkv_proj'],
     r=8, lora_alpha=16, lora_dropout=0.1
 )
 
 model = get_peft_model(model, peft_config)
-model.load_state_dict(torch.load("out"), strict=False)
+model.load_state_dict(torch.load(args.lora_path), strict=False)
 
 while True:
     prompt = input("Prompt: ")
