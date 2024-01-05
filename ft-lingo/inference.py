@@ -14,7 +14,7 @@ model = AutoPeftModelForCausalLM.from_pretrained("out/1001/", trust_remote_code=
 
 peft_config = LoraConfig(
     task_type=TaskType.CAUSAL_LM, inference_mode=True,
-    target_modules=['query_key_value'],
+    target_modules=['qkv_proj'],
     r=8, lora_alpha=16, lora_dropout=0.1
 )
 
