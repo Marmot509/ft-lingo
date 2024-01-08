@@ -9,8 +9,8 @@ parser.add_argument("--lora-path", type=str, default=None,
 args = parser.parse_args()
 
 tokenizer = transformers.AutoTokenizer.from_pretrained("deeplang-ai/LingoWhale-8B",trust_remote_code=True)
-model = AutoPeftModelForCausalLM.from_pretrained("out/1001/", trust_remote_code=True).to("cuda")
-#model = transformers.AutoModel.from_pretrained("deeplang-ai/LingoWhale-8B", trust_remote_code=True, device_map="auto").to("cuda")
+#model = AutoPeftModelForCausalLM.from_pretrained("out/1001/", trust_remote_code=True).to("cuda")
+model = transformers.AutoModel.from_pretrained("deeplang-ai/LingoWhale-8B", trust_remote_code=True, device_map="auto").to("cuda")
 
 peft_config = LoraConfig(
     task_type=TaskType.CAUSAL_LM, inference_mode=True,
@@ -24,8 +24,10 @@ model.load_state_dict(torch.load(args.lora_path), strict=False)
 while True:
     prompt = input("Prompt: ")
     inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+    print(inputs["input_ids"].shape)
     response = model.generate(input_ids=inputs["input_ids"],
                               max_length=inputs["input_ids"].shape[-1] + 500)
+    print(response.shape)
     response = response[0, inputs["input_ids"].shape[-1]:]
     print("Response:", tokenizer.decode(response, skip_special_tokens=True))
 
